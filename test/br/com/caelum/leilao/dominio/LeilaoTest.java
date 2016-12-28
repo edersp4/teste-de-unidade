@@ -17,4 +17,15 @@ public class LeilaoTest {
 		leilao.dobraLance(steveJob);
 		assertEquals(4000, leilao.getLances().get(2).getValor(),0.0001);
 	}
+	
+	@Test
+	public void naoDeveDobrarCasoNaoHajaLanceAnterior() {
+		Leilao leilao = new Leilao("Macbook pro 15");
+		Usuario steveJobs = new Usuario("Steve Jobs");
+		
+		leilao.dobraLance(steveJobs);
+		
+		assertEquals(0, leilao.getLances().size());
+	}
+	
 }

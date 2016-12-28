@@ -28,7 +28,9 @@ public class Leilao {
 
 	public void dobraLance(Usuario usuario) {
 		Lance ultimo = ultimoLanceDo(usuario);
-		propoe(new Lance(usuario, ultimo.getValor() * 2));
+		if (ultimo != null) {
+			propoe(new Lance(usuario, ultimo.getValor() * 2));
+		}
 	}
 
 	private Lance ultimoLanceDo(Usuario usuario) {
