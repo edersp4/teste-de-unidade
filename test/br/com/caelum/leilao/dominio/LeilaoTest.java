@@ -7,6 +7,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import static br.com.caelum.leilao.dominio.LeilaoMatcher.temUmLance;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+
 public class LeilaoTest {
 	
 	private Usuario steveJobs;
@@ -70,6 +75,20 @@ public class LeilaoTest {
         int ultimo = leilao.getLances().size()-1;
         assertEquals(11000.0, leilao.getLances().get(ultimo).getValor(), 0.00001);
     }    
+	
+	@Test
+	public void deveReceberUmLance() {
+		Leilao leilao = new CriadorDeLeilao().para("Macbook Pro 15").constroi();
+		assertThat(leilao.getLances().size(), equalTo(0));
+		
+		
+		Lance lance = new Lance(steveJobs, 2000);
+		leilao.propoe(lance);
+		
+		assertThat(leilao.getLances().size(), equalTo(1));
+		assertThat(leilao, temUmLance(lance));
+		
+	}
 }
 	
 	

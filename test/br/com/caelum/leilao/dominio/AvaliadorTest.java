@@ -1,14 +1,14 @@
 package br.com.caelum.leilao.dominio;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
 
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 public class AvaliadorTest {
 
@@ -50,22 +50,23 @@ public class AvaliadorTest {
 	@Test
 	public void deveEntenderLeilaoComApenasUmLance() {
 		Leilao leilao = new CriadorDeLeilao().para("Playstation 3 Novo").lance(joao, 1000.0).constroi();
-
 		leiloeiro.avalia(leilao);
-
-		assertEquals(1000.0, leiloeiro.getMaiorLance(), 0.00001);
-		assertEquals(1000.0, leiloeiro.getMenorLance(), 0.00001);
+		assertThat(leiloeiro.getMaiorLance(), equalTo(1000.0));
+		assertThat(leiloeiro.getMenorLance(), equalTo(1000.0));
 	}
 
 	@Test
 	public void deveEncontrarOsTresMaioresLances() {
-		Leilao leilao = new CriadorDeLeilao().para("Playstation 3 Novo").lance(joao, 100.0).lance(maria, 200.0)
+		Leilao leilao = new CriadorDeLeilao()
+				.para("Playstation 3 Novo")
+				.lance(joao, 100.0).lance(maria, 200.0)
 				.lance(joao, 300.0).lance(maria, 400.0).constroi();
 
 		leiloeiro.avalia(leilao);
 
 		List<Lance> maiores = leiloeiro.getTresMaiores();
-		assertEquals(3, maiores.size());
+		
+		assertThat(maiores.size(),equalTo(3));
 
 	    assertThat(maiores, hasItems(
                 new Lance(maria, 400), 
